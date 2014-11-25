@@ -11,32 +11,33 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-
-int complexity;
-int N;
+#include <string>
 
 int d(int n) {
 	return rand()%n+1;
 }
 
 int main(int argc, char* argv[]) {
-	if(argc==1) {
-		N = 1000;
-		complexity = 2;
-	} else if(argc == 1) {
-		N = atoi(argv[0]);
-		complexity = 2;
-	} else if(argc == 2) {
-		N = atoi(argv[0]);
-		complexity = atoi(argv[1]);
-	} else {
-		printf("Call with optional arguments [ N [complexity] ]\n");
+	int complexity = 2, N = 1000;
+	std::string mode = "donovan";
+
+	switch(argc) {
+		case 4:
+			mode = std::string(argv[3]);
+		case 3:
+			complexity = atoi(argv[2]);
+		case 2:
+			N = atoi(argv[1]);
+			break;
+		default:
+			printf("USAGE: %s <num> [complexity] [lawley OR donovan]\n", argv[0]);
+			return 1;
 	}
 
 	std::srand(std::time(0));
 
 	bool prime;
-	for(int i = 3; i <= N; i++) {
+	for(int i = 0; i <= N; i++) {
 		for(int j = 2; j <= complexity; j++) {
 			prime = ( !(i%j==0) );
 			if(!prime) {
@@ -44,9 +45,14 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		if(prime) {
-			prime = ( d(6) == 1 );// change to d(6)==2 for Lawley method
+			if(mode == "lawley") {
+				prime = ( d(6)==1 || d(6)==4 );
+			} else {
+				prime = ( d(6) == 1 );
+			}
 		}
-		if(!prime) printf("%i 0\n", i);
-		if( prime) printf("%i 1\n", i);
+
+		if(prime) printf("%d is probably prime\n", i);
+		else	  printf("%d is probably not prime\n", i);
 	}
 }
