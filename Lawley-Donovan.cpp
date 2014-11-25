@@ -1,6 +1,12 @@
 // Based on an algorithm suggested by
 // Lawley, Donovan et al
 // Author: Nathaniel Mathews
+//
+// Usage: ./{compiled program} [N] complexity]
+//        where N is the maximum integer to stop
+//        at, and complexity is the factor to
+//        stop calculation at (2, for the titular
+//        method.
 
 #include <cstdio>
 #include <cstdlib>
